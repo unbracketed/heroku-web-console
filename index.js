@@ -33,6 +33,23 @@ app.get('/apps', function(req, res) {
     });
 })
 
+app.get('/apps/:appName', function(req, res){
+  heroku = new Heroku({token: API_KEY})
+  heroku.apps(req.params.appName).info(function(err, info){
+    console.log('appinfo', err, info)
+    res.send(info)
+  })
+})
+
+app.get('/apps/:appName/config', function(req, res){
+  heroku = new Heroku({token: API_KEY})
+  heroku.apps(req.params.appName).configVars().info(function(err, info){
+    console.log('config', err, info)
+    res.send(info)
+  })
+})
+
+
 var PORT = process.env.PORT || 14000
 var server = app.listen(PORT, function () {
 
